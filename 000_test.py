@@ -25,7 +25,6 @@ pl.plot(x,y, '.')
 pl.axis('equal')
 pl.show()
 
-FPPScy.pytest()
 fpps = FPPScy.PyFPPS(nTheta=40, nR=100, a=.5)
 Ex, Ey = fpps.solveall(x, y, charge)
 
