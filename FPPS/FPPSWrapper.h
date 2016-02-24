@@ -11,7 +11,7 @@
 
 class FPPSWrapper{
 public:
-	FPPSWrapper(int nTheta, int nR, double a);
+    FPPSWrapper();
     virtual ~FPPSWrapper();
     void scatter(double* x,double* y,double* charge,int n);
     void gather(double* x,double* y,double* Ex, double* Ey,int n);
@@ -21,14 +21,27 @@ public:
 protected:
     bool sourceIsProbe;
 	ChangeCoord_Frac *g;
-	NonLinearMesh *chargeDistributionMesh;
-	NonLinearMesh *radialField;
-	NonLinearMesh *polarField;
+	Mesh *chargeDistributionMesh;
+	Mesh *radialField;
+	Mesh *polarField;
 	ChargeDistribution *chargeDistribution;
 	FastPolarPoissonSolver *fastPolarPoissonSolver;
 	ElectricFieldSolver *electricFieldSolver;
     PolarBeamRepresentation* sourcePolarBeamRepresentation;
     PolarBeamRepresentation* probePolarBeamRepresentation;
+};
+
+class FPPSUniform : public FPPSWrapper {
+public:
+	FPPSUniform(int nTheta, int nR, double r);
+};
+
+class FPPSOpenBoundary : public FPPSWrapper {
+public:
+	FPPSOpenBoundary(int nTheta, int nR, double a);
+    virtual ~FPPSOpenBoundary();
+protected:
+	ChangeCoord_Frac *g;
 };
 
 #endif

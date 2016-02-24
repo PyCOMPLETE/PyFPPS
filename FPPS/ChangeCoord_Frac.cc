@@ -14,7 +14,6 @@ double ChangeCoord_Frac::f(const double& x) const
 double ChangeCoord_Frac::inv_f(const double& x) const
 {
   return x/(fabs(x)+a);
-  
 }
 
 double ChangeCoord_Frac::der_f(const double& x) const

@@ -2,20 +2,31 @@ import numpy as np
 cimport numpy as np
 from libcpp cimport bool
 
-    
+
 cdef extern from "FPPSWrapper.h":
     cdef cppclass FPPSWrapper:
-        FPPSWrapper(int nTheta, int nR, double a) except + #propagates the exception correctly
         void useSourceAsProbe()
         void scatter(double* x,double* y,double* charge,int n)
         void gather(double* x,double* y,double* Ex, double* Ey,int n)
         void solve()
 
+cdef extern from "FPPSWrapper.h":
+    cdef cppclass FPPSOpenBoundary(FPPSWrapper):
+        FPPSOpenBoundary(int nTheta, int nR, double a) except + #propagates the exception correctly
+
+cdef extern from "FPPSWrapper.h":
+    cdef cppclass FPPSUniform(FPPSWrapper):
+        FPPSUniform(int nTheta, int nR, double r) except + #propagates the exception correctly
     
 cdef class PyFPPS:
     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
-    def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):
-        self.thisptr = new FPPSWrapper(nTheta, nR, a)
+    def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False,solverType = 'Uniform'):
+        if solverType == 'Uniform':
+            self.thisptr = new FPPSUniform(nTheta, nR, a)
+        elif solverType == 'OpenBoundary':
+            self.thisptr = new FPPSOpenBoundary(nTheta, nR, a)
+        else:
+            raise Exception(solverType+' is not a solver type')
         if useSourceAsProbe:
             self.thisptr.useSourceAsProbe()
 
