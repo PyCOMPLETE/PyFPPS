@@ -2,8 +2,8 @@ from distutils.core import setup, Extension
 from Cython.Build import cythonize
 
 setup(ext_modules = cythonize(Extension(
-           "FPPScy",                                # the extesion name
-           sources=["FPPScy.pyx", "FPPSTest.cc",
+           "CyFPPS",                                # the extesion name
+           sources=["CyFPPS.pyx", "FPPSWrapper.cc",
            'ChangeCoord.cc', 'ElectricFieldSolver.cc', 'Mesh.cc',
 		   'ChangeCoord_Frac.cc', 'FastPolarPoissonSolver.cc',  'NonLinearMesh.cc',
 		   'ChangeCoord_Tanh.cc', 'PolarBeamRepresentation.cc',

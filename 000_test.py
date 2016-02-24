@@ -1,4 +1,4 @@
-import FPPScy
+import CyFPPS
 from numpy.random import rand
 import numpy as np
 import pylab as pl
@@ -25,7 +25,7 @@ pl.plot(x,y, '.')
 pl.axis('equal')
 pl.show()
 
-fpps = FPPScy.PyFPPS(nTheta=40, nR=100, a=.5)
+fpps = CyFPPS.PyFPPS(nTheta=40, nR=100, a=.5)
 Ex, Ey = fpps.solveall(x, y, charge)
 
 pl.figure(100)
