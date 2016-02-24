@@ -9,13 +9,9 @@
 #include "ElectricFieldSolver.h"
 #include "PolarBeamRepresentation.h"
 
-void test();
-
-
-
-class FPPS{
+class FPPSWrapper{
 public:
-	FPPS(int nTheta, int nR, double a);
+	FPPSWrapper(int nTheta, int nR, double a);
 	void solveall(int nSource, double* xSource, double* ySource, double* chargeSource,
 				 double* Ex, double* Ey);
 protected:
@@ -26,7 +22,6 @@ protected:
 	ChargeDistribution *chargeDistribution;
 	FastPolarPoissonSolver *fastPolarPoissonSolver;
 	ElectricFieldSolver *electricFieldSolver;
-
 };
 
 #endif
