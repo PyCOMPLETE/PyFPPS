@@ -12,6 +12,7 @@
 class FPPSWrapper{
 public:
 	FPPSWrapper(int nTheta, int nR, double a);
+    virtual ~FPPSWrapper();
     void scatter(double* x,double* y,double* charge,int n);
     void gather(double* x,double* y,double* Ex, double* Ey,int n);
 	void solve();

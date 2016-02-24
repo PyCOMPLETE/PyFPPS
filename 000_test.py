@@ -25,8 +25,16 @@ for offset in np.arange(-3*R,3*R,6*R/10):
 
     Ex, Ey = fpps.gather(x,y)
 
-    pl.figure(100)
+    pl.figure(0)
     pl.plot(x,Ex, '.')
+
+fpps = CyFPPS.PyFPPS(nTheta=40, nR=100, a=.5,useSourceAsProbe=True)
+fpps.scatter(xSource, ySource, charge)
+fpps.solve()
+Ex, Ey = fpps.gather(xSource,ySource)
+pl.figure(1)
+pl.plot(r,np.sqrt(Ex**2+Ey**2), '.')
+
 pl.show()
 
 

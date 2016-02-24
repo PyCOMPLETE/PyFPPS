@@ -18,8 +18,24 @@ sourceIsProbe(false){
         probePolarBeamRepresentation = new PolarBeamRepresentation(0);
 }
 
+FPPSWrapper::~FPPSWrapper() {
+	delete g;
+	delete chargeDistributionMesh;
+	delete radialField;
+	delete polarField;
+	delete chargeDistribution;
+	delete fastPolarPoissonSolver;
+	delete electricFieldSolver;
+    delete sourcePolarBeamRepresentation;
+    if(!sourceIsProbe){
+        delete probePolarBeamRepresentation;
+    }
+}
+
 void FPPSWrapper::useSourceAsProbe() {
     sourceIsProbe = true;
+    delete probePolarBeamRepresentation;
+    probePolarBeamRepresentation = sourcePolarBeamRepresentation;
 }
 
 void FPPSWrapper::scatter(double* x,double* y,double* charge,int n) {
