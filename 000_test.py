@@ -10,27 +10,23 @@ N_points = 1000000
 
 phi = rand(N_points)*2*np.pi
 u = rand(N_points)
-
 r = R * np.sqrt( u )
-
-x = r * np.cos( phi )
-y = r * np.sin( phi )
-
-charge = 1.+0.*x
-
-charge[x**2+y**2<0.5**2] = 0.
-
-pl.figure()
-pl.plot(x,y, '.')
-pl.axis('equal')
-pl.show()
+xSource = r * np.cos( phi )
+ySource = r * np.sin( phi )
+charge = 1.+0.*xSource
 
 fpps = CyFPPS.PyFPPS(nTheta=40, nR=100, a=.5)
-Ex, Ey = fpps.solveall(x, y, charge)
+fpps.scatter(xSource, ySource, charge)
+fpps.solve()
 
-pl.figure(100)
-pl.plot(np.sqrt(x**2+y**2),np.sqrt(Ex**2+Ey**2), '.')
+for offset in np.arange(-3*R,3*R,6*R/10):
+    x = np.arange(-3*R,3*R,6*R/1000)
+    y = np.zeros_like(x)+offset
 
+    Ex, Ey = fpps.gather(x,y)
+
+    pl.figure(100)
+    pl.plot(x,Ex, '.')
 pl.show()
 
 

@@ -751,12 +751,12 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "CyFPPS.pyx":11
+/* "CyFPPS.pyx":12
  * 
  * 
  * cdef class PyFPPS:             # <<<<<<<<<<<<<<
- * 	cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- * 	def __cinit__(self, int nTheta, int nR, double a):
+ *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
+ *     def __cinit__(self, int nTheta, int nR, double a):
  */
 struct __pyx_obj_6CyFPPS_PyFPPS {
   PyObject_HEAD
@@ -767,7 +767,9 @@ struct __pyx_obj_6CyFPPS_PyFPPS {
 
 
 struct __pyx_vtabstruct_6CyFPPS_PyFPPS {
-  PyObject *(*solveall)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch);
+  PyObject *(*scatter)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch);
+  PyObject *(*gather)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch);
+  PyObject *(*solve)(struct __pyx_obj_6CyFPPS_PyFPPS *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_6CyFPPS_PyFPPS *__pyx_vtabptr_6CyFPPS_PyFPPS;
 
@@ -864,10 +866,22 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
-
 static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
     const char *name, int exact);
+
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
 
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
@@ -1086,7 +1100,9 @@ static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class
 
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_xSource, PyArrayObject *__pyx_v_ySource, PyArrayObject *__pyx_v_chargeSource, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, PyArrayObject *__pyx_v_charge, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solve(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 
 /* Module declarations from 'cpython.buffer' */
 
@@ -1141,6 +1157,8 @@ static char __pyx_k_h[] = "h";
 static char __pyx_k_i[] = "i";
 static char __pyx_k_l[] = "l";
 static char __pyx_k_q[] = "q";
+static char __pyx_k_x[] = "x";
+static char __pyx_k_y[] = "y";
 static char __pyx_k_Zd[] = "Zd";
 static char __pyx_k_Zf[] = "Zf";
 static char __pyx_k_Zg[] = "Zg";
@@ -1150,15 +1168,15 @@ static char __pyx_k_main[] = "__main__";
 static char __pyx_k_test[] = "__test__";
 static char __pyx_k_numpy[] = "numpy";
 static char __pyx_k_range[] = "range";
+static char __pyx_k_solve[] = "solve";
+static char __pyx_k_charge[] = "charge";
+static char __pyx_k_gather[] = "gather";
 static char __pyx_k_import[] = "__import__";
 static char __pyx_k_nTheta[] = "nTheta";
-static char __pyx_k_xSource[] = "xSource";
-static char __pyx_k_ySource[] = "ySource";
-static char __pyx_k_solveall[] = "solveall";
+static char __pyx_k_scatter[] = "scatter";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
-static char __pyx_k_chargeSource[] = "chargeSource";
 static char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
@@ -1171,7 +1189,8 @@ static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_a;
-static PyObject *__pyx_n_s_chargeSource;
+static PyObject *__pyx_n_s_charge;
+static PyObject *__pyx_n_s_gather;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_nR;
@@ -1182,13 +1201,16 @@ static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_solveall;
+static PyObject *__pyx_n_s_scatter;
+static PyObject *__pyx_n_s_solve;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
-static PyObject *__pyx_n_s_xSource;
-static PyObject *__pyx_n_s_ySource;
+static PyObject *__pyx_n_s_x;
+static PyObject *__pyx_n_s_y;
 static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_v_nTheta, int __pyx_v_nR, double __pyx_v_a); /* proto */
-static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2solveall(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_xSource, PyArrayObject *__pyx_v_ySource, PyArrayObject *__pyx_v_chargeSource); /* proto */
+static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2scatter(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, PyArrayObject *__pyx_v_charge); /* proto */
+static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_4gather(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y); /* proto */
+static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_6solve(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_6CyFPPS_PyFPPS(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1200,12 +1222,12 @@ static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 
-/* "CyFPPS.pyx":13
+/* "CyFPPS.pyx":14
  * cdef class PyFPPS:
- * 	cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- * 	def __cinit__(self, int nTheta, int nR, double a):             # <<<<<<<<<<<<<<
- * 		self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,
+ *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
+ *     def __cinit__(self, int nTheta, int nR, double a):             # <<<<<<<<<<<<<<
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ * 
  */
 
 /* Python wrapper */
@@ -1241,16 +1263,16 @@ static int __pyx_pw_6CyFPPS_6PyFPPS_1__cinit__(PyObject *__pyx_v_self, PyObject 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nR)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_a)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1259,13 +1281,13 @@ static int __pyx_pw_6CyFPPS_6PyFPPS_1__cinit__(PyObject *__pyx_v_self, PyObject 
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_nTheta = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_nTheta == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_nR = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_nR == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_a = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nTheta = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_nTheta == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nR = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_nR == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_a = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("CyFPPS.PyFPPS.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1287,27 +1309,27 @@ static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "CyFPPS.pyx":14
- * 	cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- * 	def __cinit__(self, int nTheta, int nR, double a):
- * 		self.thisptr = new FPPSWrapper(nTheta, nR, a)             # <<<<<<<<<<<<<<
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,
- * 		np.ndarray chargeSource):
+  /* "CyFPPS.pyx":15
+ *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
+ *     def __cinit__(self, int nTheta, int nR, double a):
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
  */
   try {
     __pyx_t_1 = new FPPSWrapper(__pyx_v_nTheta, __pyx_v_nR, __pyx_v_a);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_v_self->thisptr = __pyx_t_1;
 
-  /* "CyFPPS.pyx":13
+  /* "CyFPPS.pyx":14
  * cdef class PyFPPS:
- * 	cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- * 	def __cinit__(self, int nTheta, int nR, double a):             # <<<<<<<<<<<<<<
- * 		self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,
+ *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
+ *     def __cinit__(self, int nTheta, int nR, double a):             # <<<<<<<<<<<<<<
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ * 
  */
 
   /* function exit code */
@@ -1321,19 +1343,255 @@ static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *_
   return __pyx_r;
 }
 
-/* "CyFPPS.pyx":15
- * 	def __cinit__(self, int nTheta, int nR, double a):
- * 		self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,             # <<<<<<<<<<<<<<
- * 		np.ndarray chargeSource):
- * 		cdef double* xSource_data = <double*>xSource.data
+/* "CyFPPS.pyx":17
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ * 
+ *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):             # <<<<<<<<<<<<<<
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data
  */
 
-static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3solveall(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_xSource, PyArrayObject *__pyx_v_ySource, PyArrayObject *__pyx_v_chargeSource, int __pyx_skip_dispatch) {
-  double *__pyx_v_xSource_data;
-  double *__pyx_v_ySource_data;
-  double *__pyx_v_chargeSource_data;
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3scatter(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, PyArrayObject *__pyx_v_charge, int __pyx_skip_dispatch) {
+  double *__pyx_v_x_data;
+  double *__pyx_v_y_data;
+  double *__pyx_v_charge_data;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("scatter", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_scatter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_3scatter)) {
+      __Pyx_XDECREF(__pyx_r);
+      __Pyx_INCREF(__pyx_t_1);
+      __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+      __pyx_t_5 = 0;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+          __pyx_t_5 = 1;
+        }
+      }
+      __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_6);
+      if (__pyx_t_4) {
+        __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+      }
+      __Pyx_INCREF(((PyObject *)__pyx_v_x));
+      __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
+      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, ((PyObject *)__pyx_v_x));
+      __Pyx_INCREF(((PyObject *)__pyx_v_y));
+      __Pyx_GIVEREF(((PyObject *)__pyx_v_y));
+      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_y));
+      __Pyx_INCREF(((PyObject *)__pyx_v_charge));
+      __Pyx_GIVEREF(((PyObject *)__pyx_v_charge));
+      PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, ((PyObject *)__pyx_v_charge));
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_r = __pyx_t_2;
+      __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      goto __pyx_L0;
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "CyFPPS.pyx":18
+ * 
+ *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
+ *         cdef double* x_data = <double*>x.data             # <<<<<<<<<<<<<<
+ *         cdef double* y_data = <double*>y.data
+ *         cdef double* charge_data = <double*>charge.data
+ */
+  __pyx_v_x_data = ((double *)__pyx_v_x->data);
+
+  /* "CyFPPS.pyx":19
+ *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data             # <<<<<<<<<<<<<<
+ *         cdef double* charge_data = <double*>charge.data
+ * 
+ */
+  __pyx_v_y_data = ((double *)__pyx_v_y->data);
+
+  /* "CyFPPS.pyx":20
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data
+ *         cdef double* charge_data = <double*>charge.data             # <<<<<<<<<<<<<<
+ * 
+ *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))
+ */
+  __pyx_v_charge_data = ((double *)__pyx_v_charge->data);
+
+  /* "CyFPPS.pyx":22
+ *         cdef double* charge_data = <double*>charge.data
+ * 
+ *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef gather(self, np.ndarray x, np.ndarray y):
+ */
+  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_x)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->thisptr->scatter(__pyx_v_x_data, __pyx_v_y_data, __pyx_v_charge_data, __pyx_t_5);
+
+  /* "CyFPPS.pyx":17
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ * 
+ *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):             # <<<<<<<<<<<<<<
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.scatter", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3scatter(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3scatter(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_x = 0;
+  PyArrayObject *__pyx_v_y = 0;
+  PyArrayObject *__pyx_v_charge = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("scatter (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_y,&__pyx_n_s_charge,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_charge)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "scatter") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_x = ((PyArrayObject *)values[0]);
+    __pyx_v_y = ((PyArrayObject *)values[1]);
+    __pyx_v_charge = ((PyArrayObject *)values[2]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.scatter", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_charge), __pyx_ptype_5numpy_ndarray, 1, "charge", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS_2scatter(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_x, __pyx_v_y, __pyx_v_charge);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2scatter(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, PyArrayObject *__pyx_v_charge) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("scatter", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_scatter(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_v_charge, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.scatter", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "CyFPPS.pyx":24
+ *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))
+ * 
+ *     cpdef gather(self, np.ndarray x, np.ndarray y):             # <<<<<<<<<<<<<<
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data
+ */
+
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_5gather(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, int __pyx_skip_dispatch) {
+  double *__pyx_v_x_data;
+  double *__pyx_v_y_data;
   PyArrayObject *__pyx_v_Ex = 0;
   PyArrayObject *__pyx_v_Ey = 0;
   double *__pyx_v_Ex_data;
@@ -1349,14 +1607,14 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPP
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("solveall", 0);
+  __Pyx_RefNannySetupContext("gather", 0);
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_solveall); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gather); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_3solveall)) {
+    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_5gather)) {
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -1371,21 +1629,18 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPP
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
       }
-      __Pyx_INCREF(((PyObject *)__pyx_v_xSource));
-      __Pyx_GIVEREF(((PyObject *)__pyx_v_xSource));
-      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, ((PyObject *)__pyx_v_xSource));
-      __Pyx_INCREF(((PyObject *)__pyx_v_ySource));
-      __Pyx_GIVEREF(((PyObject *)__pyx_v_ySource));
-      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_ySource));
-      __Pyx_INCREF(((PyObject *)__pyx_v_chargeSource));
-      __Pyx_GIVEREF(((PyObject *)__pyx_v_chargeSource));
-      PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, ((PyObject *)__pyx_v_chargeSource));
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_INCREF(((PyObject *)__pyx_v_x));
+      __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
+      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, ((PyObject *)__pyx_v_x));
+      __Pyx_INCREF(((PyObject *)__pyx_v_y));
+      __Pyx_GIVEREF(((PyObject *)__pyx_v_y));
+      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_y));
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1397,103 +1652,87 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPP
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "CyFPPS.pyx":17
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,
- * 		np.ndarray chargeSource):
- * 		cdef double* xSource_data = <double*>xSource.data             # <<<<<<<<<<<<<<
- * 		cdef double* ySource_data = <double*>ySource.data
- * 		cdef double* chargeSource_data = <double*>chargeSource.data
+  /* "CyFPPS.pyx":25
+ * 
+ *     cpdef gather(self, np.ndarray x, np.ndarray y):
+ *         cdef double* x_data = <double*>x.data             # <<<<<<<<<<<<<<
+ *         cdef double* y_data = <double*>y.data
+ *         cdef np.ndarray Ex = 0.*x;
  */
-  __pyx_v_xSource_data = ((double *)__pyx_v_xSource->data);
+  __pyx_v_x_data = ((double *)__pyx_v_x->data);
 
-  /* "CyFPPS.pyx":18
- * 		np.ndarray chargeSource):
- * 		cdef double* xSource_data = <double*>xSource.data
- * 		cdef double* ySource_data = <double*>ySource.data             # <<<<<<<<<<<<<<
- * 		cdef double* chargeSource_data = <double*>chargeSource.data
- * 
+  /* "CyFPPS.pyx":26
+ *     cpdef gather(self, np.ndarray x, np.ndarray y):
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data             # <<<<<<<<<<<<<<
+ *         cdef np.ndarray Ex = 0.*x;
+ *         cdef np.ndarray Ey = 0.*x;
  */
-  __pyx_v_ySource_data = ((double *)__pyx_v_ySource->data);
+  __pyx_v_y_data = ((double *)__pyx_v_y->data);
 
-  /* "CyFPPS.pyx":19
- * 		cdef double* xSource_data = <double*>xSource.data
- * 		cdef double* ySource_data = <double*>ySource.data
- * 		cdef double* chargeSource_data = <double*>chargeSource.data             # <<<<<<<<<<<<<<
- * 
- * 		cdef np.ndarray Ex = 0.*xSource;
- */
-  __pyx_v_chargeSource_data = ((double *)__pyx_v_chargeSource->data);
-
-  /* "CyFPPS.pyx":21
- * 		cdef double* chargeSource_data = <double*>chargeSource.data
- * 
- * 		cdef np.ndarray Ex = 0.*xSource;             # <<<<<<<<<<<<<<
- * 		cdef np.ndarray Ey = 0.*xSource;
+  /* "CyFPPS.pyx":27
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data
+ *         cdef np.ndarray Ex = 0.*x;             # <<<<<<<<<<<<<<
+ *         cdef np.ndarray Ey = 0.*x;
  * 
  */
-  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_xSource)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_x)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_Ex = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "CyFPPS.pyx":22
+  /* "CyFPPS.pyx":28
+ *         cdef double* y_data = <double*>y.data
+ *         cdef np.ndarray Ex = 0.*x;
+ *         cdef np.ndarray Ey = 0.*x;             # <<<<<<<<<<<<<<
  * 
- * 		cdef np.ndarray Ex = 0.*xSource;
- * 		cdef np.ndarray Ey = 0.*xSource;             # <<<<<<<<<<<<<<
- * 
- * 		cdef double* Ex_data = <double*>Ex.data
+ *         cdef double* Ex_data = <double*>Ex.data
  */
-  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_xSource)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_x)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_Ey = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "CyFPPS.pyx":24
- * 		cdef np.ndarray Ey = 0.*xSource;
+  /* "CyFPPS.pyx":30
+ *         cdef np.ndarray Ey = 0.*x;
  * 
- * 		cdef double* Ex_data = <double*>Ex.data             # <<<<<<<<<<<<<<
- * 		cdef double* Ey_data = <double*>Ey.data
+ *         cdef double* Ex_data = <double*>Ex.data             # <<<<<<<<<<<<<<
+ *         cdef double* Ey_data = <double*>Ey.data
  * 
  */
   __pyx_v_Ex_data = ((double *)__pyx_v_Ex->data);
 
-  /* "CyFPPS.pyx":25
+  /* "CyFPPS.pyx":31
  * 
- * 		cdef double* Ex_data = <double*>Ex.data
- * 		cdef double* Ey_data = <double*>Ey.data             # <<<<<<<<<<<<<<
+ *         cdef double* Ex_data = <double*>Ex.data
+ *         cdef double* Ey_data = <double*>Ey.data             # <<<<<<<<<<<<<<
  * 
- * 		self.thisptr.solveall(len(xSource),xSource_data, ySource_data,
+ *         self.thisptr.gather(x_data, y_data, Ex_data, Ey_data,len(x))
  */
   __pyx_v_Ey_data = ((double *)__pyx_v_Ey->data);
 
-  /* "CyFPPS.pyx":27
- * 		cdef double* Ey_data = <double*>Ey.data
+  /* "CyFPPS.pyx":33
+ *         cdef double* Ey_data = <double*>Ey.data
  * 
- * 		self.thisptr.solveall(len(xSource),xSource_data, ySource_data,             # <<<<<<<<<<<<<<
- * 					chargeSource_data, Ex_data, Ey_data)
- * 		return Ex, Ey
- */
-  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_xSource)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "CyFPPS.pyx":28
- * 
- * 		self.thisptr.solveall(len(xSource),xSource_data, ySource_data,
- * 					chargeSource_data, Ex_data, Ey_data)             # <<<<<<<<<<<<<<
- * 		return Ex, Ey
+ *         self.thisptr.gather(x_data, y_data, Ex_data, Ey_data,len(x))             # <<<<<<<<<<<<<<
+ *         return Ex, Ey
  * 
  */
-  __pyx_v_self->thisptr->solveall(__pyx_t_5, __pyx_v_xSource_data, __pyx_v_ySource_data, __pyx_v_chargeSource_data, __pyx_v_Ex_data, __pyx_v_Ey_data);
+  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_x)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->thisptr->gather(__pyx_v_x_data, __pyx_v_y_data, __pyx_v_Ex_data, __pyx_v_Ey_data, __pyx_t_5);
 
-  /* "CyFPPS.pyx":29
- * 		self.thisptr.solveall(len(xSource),xSource_data, ySource_data,
- * 					chargeSource_data, Ex_data, Ey_data)
- * 		return Ex, Ey             # <<<<<<<<<<<<<<
+  /* "CyFPPS.pyx":34
  * 
+ *         self.thisptr.gather(x_data, y_data, Ex_data, Ey_data,len(x))
+ *         return Ex, Ey             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef solve(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_Ex));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_Ex));
@@ -1505,12 +1744,12 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPP
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "CyFPPS.pyx":15
- * 	def __cinit__(self, int nTheta, int nR, double a):
- * 		self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,             # <<<<<<<<<<<<<<
- * 		np.ndarray chargeSource):
- * 		cdef double* xSource_data = <double*>xSource.data
+  /* "CyFPPS.pyx":24
+ *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))
+ * 
+ *     cpdef gather(self, np.ndarray x, np.ndarray y):             # <<<<<<<<<<<<<<
+ *         cdef double* x_data = <double*>x.data
+ *         cdef double* y_data = <double*>y.data
  */
 
   /* function exit code */
@@ -1520,7 +1759,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPP
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("CyFPPS.PyFPPS.solveall", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.gather", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_Ex);
@@ -1531,25 +1770,23 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solveall(struct __pyx_obj_6CyFPPS_PyFPP
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3solveall(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3solveall(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyArrayObject *__pyx_v_xSource = 0;
-  PyArrayObject *__pyx_v_ySource = 0;
-  PyArrayObject *__pyx_v_chargeSource = 0;
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_5gather(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_5gather(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_x = 0;
+  PyArrayObject *__pyx_v_y = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("solveall (wrapper)", 0);
+  __Pyx_RefNannySetupContext("gather (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_xSource,&__pyx_n_s_ySource,&__pyx_n_s_chargeSource,0};
-    PyObject* values[3] = {0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x,&__pyx_n_s_y,0};
+    PyObject* values[2] = {0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         case  0: break;
@@ -1558,45 +1795,37 @@ static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3solveall(PyObject *__pyx_v_self, PyOb
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_xSource)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ySource)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("solveall", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-        case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_chargeSource)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("solveall", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("gather", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "solveall") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "gather") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_xSource = ((PyArrayObject *)values[0]);
-    __pyx_v_ySource = ((PyArrayObject *)values[1]);
-    __pyx_v_chargeSource = ((PyArrayObject *)values[2]);
+    __pyx_v_x = ((PyArrayObject *)values[0]);
+    __pyx_v_y = ((PyArrayObject *)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("solveall", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("gather", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("CyFPPS.PyFPPS.solveall", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.gather", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_xSource), __pyx_ptype_5numpy_ndarray, 1, "xSource", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ySource), __pyx_ptype_5numpy_ndarray, 1, "ySource", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_chargeSource), __pyx_ptype_5numpy_ndarray, 1, "chargeSource", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS_2solveall(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_xSource, __pyx_v_ySource, __pyx_v_chargeSource);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS_4gather(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_x, __pyx_v_y);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1607,16 +1836,16 @@ static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3solveall(PyObject *__pyx_v_self, PyOb
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2solveall(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_xSource, PyArrayObject *__pyx_v_ySource, PyArrayObject *__pyx_v_chargeSource) {
+static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_4gather(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("solveall", 0);
+  __Pyx_RefNannySetupContext("gather", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_solveall(__pyx_v_self, __pyx_v_xSource, __pyx_v_ySource, __pyx_v_chargeSource, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_gather(__pyx_v_self, __pyx_v_x, __pyx_v_y, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1625,7 +1854,133 @@ static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2solveall(struct __pyx_obj_6CyFPPS_PyF
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("CyFPPS.PyFPPS.solveall", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.gather", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "CyFPPS.pyx":36
+ *         return Ex, Ey
+ * 
+ *     cpdef solve(self):             # <<<<<<<<<<<<<<
+ *         self.thisptr.solve()
+ * 
+ */
+
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_7solve(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solve(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("solve", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_solve); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_7solve)) {
+      __Pyx_XDECREF(__pyx_r);
+      __Pyx_INCREF(__pyx_t_1);
+      __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+        }
+      }
+      if (__pyx_t_4) {
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      } else {
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      }
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_r = __pyx_t_2;
+      __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      goto __pyx_L0;
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "CyFPPS.pyx":37
+ * 
+ *     cpdef solve(self):
+ *         self.thisptr.solve()             # <<<<<<<<<<<<<<
+ * 
+ */
+  __pyx_v_self->thisptr->solve();
+
+  /* "CyFPPS.pyx":36
+ *         return Ex, Ey
+ * 
+ *     cpdef solve(self):             # <<<<<<<<<<<<<<
+ *         self.thisptr.solve()
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.solve", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_7solve(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_7solve(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("solve (wrapper)", 0);
+  __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS_6solve(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_6solve(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("solve", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_solve(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("CyFPPS.PyFPPS.solve", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3804,7 +4159,9 @@ static void __pyx_tp_dealloc_6CyFPPS_PyFPPS(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods_6CyFPPS_PyFPPS[] = {
-  {"solveall", (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_3solveall, METH_VARARGS|METH_KEYWORDS, 0},
+  {"scatter", (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_3scatter, METH_VARARGS|METH_KEYWORDS, 0},
+  {"gather", (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_5gather, METH_VARARGS|METH_KEYWORDS, 0},
+  {"solve", (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_7solve, METH_NOARGS, 0},
   {0, 0, 0, 0}
 };
 
@@ -3895,7 +4252,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
-  {&__pyx_n_s_chargeSource, __pyx_k_chargeSource, sizeof(__pyx_k_chargeSource), 0, 0, 1, 1},
+  {&__pyx_n_s_charge, __pyx_k_charge, sizeof(__pyx_k_charge), 0, 0, 1, 1},
+  {&__pyx_n_s_gather, __pyx_k_gather, sizeof(__pyx_k_gather), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_nR, __pyx_k_nR, sizeof(__pyx_k_nR), 0, 0, 1, 1},
@@ -3906,11 +4264,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_solveall, __pyx_k_solveall, sizeof(__pyx_k_solveall), 0, 0, 1, 1},
+  {&__pyx_n_s_scatter, __pyx_k_scatter, sizeof(__pyx_k_scatter), 0, 0, 1, 1},
+  {&__pyx_n_s_solve, __pyx_k_solve, sizeof(__pyx_k_solve), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
-  {&__pyx_n_s_xSource, __pyx_k_xSource, sizeof(__pyx_k_xSource), 0, 0, 1, 1},
-  {&__pyx_n_s_ySource, __pyx_k_ySource, sizeof(__pyx_k_ySource), 0, 0, 1, 1},
+  {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
+  {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -4093,11 +4452,13 @@ PyMODINIT_FUNC PyInit_CyFPPS(void)
   /*--- Function export code ---*/
   /*--- Type init code ---*/
   __pyx_vtabptr_6CyFPPS_PyFPPS = &__pyx_vtable_6CyFPPS_PyFPPS;
-  __pyx_vtable_6CyFPPS_PyFPPS.solveall = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_solveall;
-  if (PyType_Ready(&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtable_6CyFPPS_PyFPPS.scatter = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_scatter;
+  __pyx_vtable_6CyFPPS_PyFPPS.gather = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_gather;
+  __pyx_vtable_6CyFPPS_PyFPPS.solve = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_solve;
+  if (PyType_Ready(&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_6CyFPPS_PyFPPS.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_6CyFPPS_PyFPPS.tp_dict, __pyx_vtabptr_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "PyFPPS", (PyObject *)&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_6CyFPPS_PyFPPS.tp_dict, __pyx_vtabptr_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "PyFPPS", (PyObject *)&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_6CyFPPS_PyFPPS = &__pyx_type_6CyFPPS_PyFPPS;
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
@@ -4129,12 +4490,12 @@ PyMODINIT_FUNC PyInit_CyFPPS(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "CyFPPS.pyx":15
- * 	def __cinit__(self, int nTheta, int nR, double a):
- * 		self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 	cpdef solveall(self, np.ndarray xSource, np.ndarray ySource,             # <<<<<<<<<<<<<<
- * 		np.ndarray chargeSource):
- * 		cdef double* xSource_data = <double*>xSource.data
+  /* "CyFPPS.pyx":36
+ *         return Ex, Ey
+ * 
+ *     cpdef solve(self):             # <<<<<<<<<<<<<<
+ *         self.thisptr.solve()
+ * 
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -4346,18 +4707,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 }
 #endif
 
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (likely(PyObject_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
-    return 0;
-}
-
 static void __Pyx_RaiseArgumentTypeInvalid(const char* name, PyObject *obj, PyTypeObject *type) {
     PyErr_Format(PyExc_TypeError,
         "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
@@ -4383,6 +4732,86 @@ static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, in
     __Pyx_RaiseArgumentTypeInvalid(name, obj, type);
     return 0;
 }
+
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (likely(PyObject_TypeCheck(obj, type)))
+        return 1;
+    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
+                 Py_TYPE(obj)->tp_name, type->tp_name);
+    return 0;
+}
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
 
 static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
