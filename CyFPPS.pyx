@@ -1,9 +1,12 @@
 import numpy as np
 cimport numpy as np
+from libcpp cimport bool
+
     
 cdef extern from "FPPSWrapper.h":
     cdef cppclass FPPSWrapper:
         FPPSWrapper(int nTheta, int nR, double a) except + #propagates the exception correctly
+        void useSourceAsProbe()
         void scatter(double* x,double* y,double* charge,int n)
         void gather(double* x,double* y,double* Ex, double* Ey,int n)
         void solve()
@@ -11,8 +14,10 @@ cdef extern from "FPPSWrapper.h":
     
 cdef class PyFPPS:
     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
-    def __cinit__(self, int nTheta, int nR, double a):
+    def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):
         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+        if useSourceAsProbe:
+            self.thisptr.useSourceAsProbe()
 
     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
         cdef double* x_data = <double*>x.data

@@ -751,12 +751,12 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "CyFPPS.pyx":12
+/* "CyFPPS.pyx":15
  * 
  * 
  * cdef class PyFPPS:             # <<<<<<<<<<<<<<
  *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- *     def __cinit__(self, int nTheta, int nR, double a):
+ *     def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):
  */
 struct __pyx_obj_6CyFPPS_PyFPPS {
   PyObject_HEAD
@@ -1133,6 +1133,8 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
+/* Module declarations from 'libcpp' */
+
 /* Module declarations from 'CyFPPS' */
 static PyTypeObject *__pyx_ptype_6CyFPPS_PyFPPS = 0;
 #define __Pyx_MODULE_NAME "CyFPPS"
@@ -1177,6 +1179,7 @@ static char __pyx_k_scatter[] = "scatter";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
+static char __pyx_k_useSourceAsProbe[] = "useSourceAsProbe";
 static char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
@@ -1205,9 +1208,10 @@ static PyObject *__pyx_n_s_scatter;
 static PyObject *__pyx_n_s_solve;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
+static PyObject *__pyx_n_s_useSourceAsProbe;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
-static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_v_nTheta, int __pyx_v_nR, double __pyx_v_a); /* proto */
+static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_v_nTheta, int __pyx_v_nR, double __pyx_v_a, bool __pyx_v_useSourceAsProbe); /* proto */
 static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2scatter(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, PyArrayObject *__pyx_v_charge); /* proto */
 static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_4gather(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y); /* proto */
 static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_6solve(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self); /* proto */
@@ -1222,12 +1226,12 @@ static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 
-/* "CyFPPS.pyx":14
+/* "CyFPPS.pyx":17
  * cdef class PyFPPS:
  *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- *     def __cinit__(self, int nTheta, int nR, double a):             # <<<<<<<<<<<<<<
+ *     def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):             # <<<<<<<<<<<<<<
  *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 
+ *         if useSourceAsProbe:
  */
 
 /* Python wrapper */
@@ -1236,6 +1240,7 @@ static int __pyx_pw_6CyFPPS_6PyFPPS_1__cinit__(PyObject *__pyx_v_self, PyObject 
   int __pyx_v_nTheta;
   int __pyx_v_nR;
   double __pyx_v_a;
+  bool __pyx_v_useSourceAsProbe;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1243,12 +1248,13 @@ static int __pyx_pw_6CyFPPS_6PyFPPS_1__cinit__(PyObject *__pyx_v_self, PyObject 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_nTheta,&__pyx_n_s_nR,&__pyx_n_s_a,0};
-    PyObject* values[3] = {0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_nTheta,&__pyx_n_s_nR,&__pyx_n_s_a,&__pyx_n_s_useSourceAsProbe,0};
+    PyObject* values[4] = {0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -1263,73 +1269,115 @@ static int __pyx_pw_6CyFPPS_6PyFPPS_1__cinit__(PyObject *__pyx_v_self, PyObject 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nR)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_a)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_useSourceAsProbe);
+          if (value) { values[3] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
-    __pyx_v_nTheta = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_nTheta == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_nR = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_nR == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_a = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nTheta = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_nTheta == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nR = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_nR == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_a = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    if (values[3]) {
+      __pyx_v_useSourceAsProbe = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_useSourceAsProbe == (bool)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_useSourceAsProbe = ((bool)0);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("CyFPPS.PyFPPS.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS___cinit__(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_nTheta, __pyx_v_nR, __pyx_v_a);
+  __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS___cinit__(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_nTheta, __pyx_v_nR, __pyx_v_a, __pyx_v_useSourceAsProbe);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_v_nTheta, int __pyx_v_nR, double __pyx_v_a) {
+static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *__pyx_v_self, int __pyx_v_nTheta, int __pyx_v_nR, double __pyx_v_a, bool __pyx_v_useSourceAsProbe) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   FPPSWrapper *__pyx_t_1;
+  int __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "CyFPPS.pyx":15
+  /* "CyFPPS.pyx":18
  *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- *     def __cinit__(self, int nTheta, int nR, double a):
+ *     def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):
  *         self.thisptr = new FPPSWrapper(nTheta, nR, a)             # <<<<<<<<<<<<<<
- * 
- *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
+ *         if useSourceAsProbe:
+ *             self.thisptr.useSourceAsProbe()
  */
   try {
     __pyx_t_1 = new FPPSWrapper(__pyx_v_nTheta, __pyx_v_nR, __pyx_v_a);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_v_self->thisptr = __pyx_t_1;
 
-  /* "CyFPPS.pyx":14
+  /* "CyFPPS.pyx":19
+ *     def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ *         if useSourceAsProbe:             # <<<<<<<<<<<<<<
+ *             self.thisptr.useSourceAsProbe()
+ * 
+ */
+  __pyx_t_2 = (__pyx_v_useSourceAsProbe != 0);
+  if (__pyx_t_2) {
+
+    /* "CyFPPS.pyx":20
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ *         if useSourceAsProbe:
+ *             self.thisptr.useSourceAsProbe()             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
+ */
+    __pyx_v_self->thisptr->useSourceAsProbe();
+
+    /* "CyFPPS.pyx":19
+ *     def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):
+ *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+ *         if useSourceAsProbe:             # <<<<<<<<<<<<<<
+ *             self.thisptr.useSourceAsProbe()
+ * 
+ */
+  }
+
+  /* "CyFPPS.pyx":17
  * cdef class PyFPPS:
  *     cdef FPPSWrapper *thisptr      # hold a C++ instance which we're wrapping
- *     def __cinit__(self, int nTheta, int nR, double a):             # <<<<<<<<<<<<<<
+ *     def __cinit__(self, int nTheta, int nR, double a,bool useSourceAsProbe=False):             # <<<<<<<<<<<<<<
  *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
- * 
+ *         if useSourceAsProbe:
  */
 
   /* function exit code */
@@ -1343,8 +1391,8 @@ static int __pyx_pf_6CyFPPS_6PyFPPS___cinit__(struct __pyx_obj_6CyFPPS_PyFPPS *_
   return __pyx_r;
 }
 
-/* "CyFPPS.pyx":17
- *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+/* "CyFPPS.pyx":22
+ *             self.thisptr.useSourceAsProbe()
  * 
  *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):             # <<<<<<<<<<<<<<
  *         cdef double* x_data = <double*>x.data
@@ -1372,7 +1420,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_scatter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_scatter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_3scatter)) {
       __Pyx_XDECREF(__pyx_r);
@@ -1389,7 +1437,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -1403,7 +1451,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
       __Pyx_INCREF(((PyObject *)__pyx_v_charge));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_charge));
       PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, ((PyObject *)__pyx_v_charge));
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1415,7 +1463,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "CyFPPS.pyx":18
+  /* "CyFPPS.pyx":23
  * 
  *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
  *         cdef double* x_data = <double*>x.data             # <<<<<<<<<<<<<<
@@ -1424,7 +1472,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
  */
   __pyx_v_x_data = ((double *)__pyx_v_x->data);
 
-  /* "CyFPPS.pyx":19
+  /* "CyFPPS.pyx":24
  *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):
  *         cdef double* x_data = <double*>x.data
  *         cdef double* y_data = <double*>y.data             # <<<<<<<<<<<<<<
@@ -1433,7 +1481,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
  */
   __pyx_v_y_data = ((double *)__pyx_v_y->data);
 
-  /* "CyFPPS.pyx":20
+  /* "CyFPPS.pyx":25
  *         cdef double* x_data = <double*>x.data
  *         cdef double* y_data = <double*>y.data
  *         cdef double* charge_data = <double*>charge.data             # <<<<<<<<<<<<<<
@@ -1442,18 +1490,18 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_scatter(struct __pyx_obj_6CyFPPS_PyFPPS
  */
   __pyx_v_charge_data = ((double *)__pyx_v_charge->data);
 
-  /* "CyFPPS.pyx":22
+  /* "CyFPPS.pyx":27
  *         cdef double* charge_data = <double*>charge.data
  * 
  *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))             # <<<<<<<<<<<<<<
  * 
  *     cpdef gather(self, np.ndarray x, np.ndarray y):
  */
-  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_x)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_x)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->thisptr->scatter(__pyx_v_x_data, __pyx_v_y_data, __pyx_v_charge_data, __pyx_t_5);
 
-  /* "CyFPPS.pyx":17
- *         self.thisptr = new FPPSWrapper(nTheta, nR, a)
+  /* "CyFPPS.pyx":22
+ *             self.thisptr.useSourceAsProbe()
  * 
  *     cpdef scatter(self, np.ndarray x, np.ndarray y, np.ndarray charge):             # <<<<<<<<<<<<<<
  *         cdef double* x_data = <double*>x.data
@@ -1510,16 +1558,16 @@ static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3scatter(PyObject *__pyx_v_self, PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_charge)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "scatter") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "scatter") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1534,15 +1582,15 @@ static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_3scatter(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("scatter", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("CyFPPS.PyFPPS.scatter", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_charge), __pyx_ptype_5numpy_ndarray, 1, "charge", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_charge), __pyx_ptype_5numpy_ndarray, 1, "charge", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS_2scatter(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_x, __pyx_v_y, __pyx_v_charge);
 
   /* function exit code */
@@ -1563,7 +1611,7 @@ static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2scatter(struct __pyx_obj_6CyFPPS_PyFP
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("scatter", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_scatter(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_v_charge, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_scatter(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_v_charge, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1580,7 +1628,7 @@ static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_2scatter(struct __pyx_obj_6CyFPPS_PyFP
   return __pyx_r;
 }
 
-/* "CyFPPS.pyx":24
+/* "CyFPPS.pyx":29
  *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))
  * 
  *     cpdef gather(self, np.ndarray x, np.ndarray y):             # <<<<<<<<<<<<<<
@@ -1612,7 +1660,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gather); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gather); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_5gather)) {
       __Pyx_XDECREF(__pyx_r);
@@ -1629,7 +1677,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
           __pyx_t_5 = 1;
         }
       }
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -1640,7 +1688,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
       __Pyx_INCREF(((PyObject *)__pyx_v_y));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_y));
       PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, ((PyObject *)__pyx_v_y));
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1652,7 +1700,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "CyFPPS.pyx":25
+  /* "CyFPPS.pyx":30
  * 
  *     cpdef gather(self, np.ndarray x, np.ndarray y):
  *         cdef double* x_data = <double*>x.data             # <<<<<<<<<<<<<<
@@ -1661,7 +1709,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
  */
   __pyx_v_x_data = ((double *)__pyx_v_x->data);
 
-  /* "CyFPPS.pyx":26
+  /* "CyFPPS.pyx":31
  *     cpdef gather(self, np.ndarray x, np.ndarray y):
  *         cdef double* x_data = <double*>x.data
  *         cdef double* y_data = <double*>y.data             # <<<<<<<<<<<<<<
@@ -1670,33 +1718,33 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
  */
   __pyx_v_y_data = ((double *)__pyx_v_y->data);
 
-  /* "CyFPPS.pyx":27
+  /* "CyFPPS.pyx":32
  *         cdef double* x_data = <double*>x.data
  *         cdef double* y_data = <double*>y.data
  *         cdef np.ndarray Ex = 0.*x;             # <<<<<<<<<<<<<<
  *         cdef np.ndarray Ey = 0.*x;
  * 
  */
-  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_x)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_x)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_Ex = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "CyFPPS.pyx":28
+  /* "CyFPPS.pyx":33
  *         cdef double* y_data = <double*>y.data
  *         cdef np.ndarray Ex = 0.*x;
  *         cdef np.ndarray Ey = 0.*x;             # <<<<<<<<<<<<<<
  * 
  *         cdef double* Ex_data = <double*>Ex.data
  */
-  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_x)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Multiply(__pyx_float_0_, ((PyObject *)__pyx_v_x)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_Ey = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "CyFPPS.pyx":30
+  /* "CyFPPS.pyx":35
  *         cdef np.ndarray Ey = 0.*x;
  * 
  *         cdef double* Ex_data = <double*>Ex.data             # <<<<<<<<<<<<<<
@@ -1705,7 +1753,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
  */
   __pyx_v_Ex_data = ((double *)__pyx_v_Ex->data);
 
-  /* "CyFPPS.pyx":31
+  /* "CyFPPS.pyx":36
  * 
  *         cdef double* Ex_data = <double*>Ex.data
  *         cdef double* Ey_data = <double*>Ey.data             # <<<<<<<<<<<<<<
@@ -1714,17 +1762,17 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
  */
   __pyx_v_Ey_data = ((double *)__pyx_v_Ey->data);
 
-  /* "CyFPPS.pyx":33
+  /* "CyFPPS.pyx":38
  *         cdef double* Ey_data = <double*>Ey.data
  * 
  *         self.thisptr.gather(x_data, y_data, Ex_data, Ey_data,len(x))             # <<<<<<<<<<<<<<
  *         return Ex, Ey
  * 
  */
-  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_x)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyObject_Length(((PyObject *)__pyx_v_x)); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->thisptr->gather(__pyx_v_x_data, __pyx_v_y_data, __pyx_v_Ex_data, __pyx_v_Ey_data, __pyx_t_5);
 
-  /* "CyFPPS.pyx":34
+  /* "CyFPPS.pyx":39
  * 
  *         self.thisptr.gather(x_data, y_data, Ex_data, Ey_data,len(x))
  *         return Ex, Ey             # <<<<<<<<<<<<<<
@@ -1732,7 +1780,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
  *     cpdef solve(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_Ex));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_Ex));
@@ -1744,7 +1792,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_gather(struct __pyx_obj_6CyFPPS_PyFPPS 
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "CyFPPS.pyx":24
+  /* "CyFPPS.pyx":29
  *         self.thisptr.scatter(x_data,y_data,charge_data,len(x))
  * 
  *     cpdef gather(self, np.ndarray x, np.ndarray y):             # <<<<<<<<<<<<<<
@@ -1800,11 +1848,11 @@ static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_5gather(PyObject *__pyx_v_self, PyObje
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("gather", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("gather", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "gather") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "gather") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1817,14 +1865,14 @@ static PyObject *__pyx_pw_6CyFPPS_6PyFPPS_5gather(PyObject *__pyx_v_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("gather", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("gather", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("CyFPPS.PyFPPS.gather", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_6CyFPPS_6PyFPPS_4gather(((struct __pyx_obj_6CyFPPS_PyFPPS *)__pyx_v_self), __pyx_v_x, __pyx_v_y);
 
   /* function exit code */
@@ -1845,7 +1893,7 @@ static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_4gather(struct __pyx_obj_6CyFPPS_PyFPP
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gather", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_gather(__pyx_v_self, __pyx_v_x, __pyx_v_y, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_gather(__pyx_v_self, __pyx_v_x, __pyx_v_y, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1862,7 +1910,7 @@ static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_4gather(struct __pyx_obj_6CyFPPS_PyFPP
   return __pyx_r;
 }
 
-/* "CyFPPS.pyx":36
+/* "CyFPPS.pyx":41
  *         return Ex, Ey
  * 
  *     cpdef solve(self):             # <<<<<<<<<<<<<<
@@ -1886,7 +1934,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solve(struct __pyx_obj_6CyFPPS_PyFPPS *
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_solve); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_solve); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_6CyFPPS_6PyFPPS_7solve)) {
       __Pyx_XDECREF(__pyx_r);
@@ -1902,10 +1950,10 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solve(struct __pyx_obj_6CyFPPS_PyFPPS *
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1917,7 +1965,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solve(struct __pyx_obj_6CyFPPS_PyFPPS *
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "CyFPPS.pyx":37
+  /* "CyFPPS.pyx":42
  * 
  *     cpdef solve(self):
  *         self.thisptr.solve()             # <<<<<<<<<<<<<<
@@ -1925,7 +1973,7 @@ static PyObject *__pyx_f_6CyFPPS_6PyFPPS_solve(struct __pyx_obj_6CyFPPS_PyFPPS *
  */
   __pyx_v_self->thisptr->solve();
 
-  /* "CyFPPS.pyx":36
+  /* "CyFPPS.pyx":41
  *         return Ex, Ey
  * 
  *     cpdef solve(self):             # <<<<<<<<<<<<<<
@@ -1971,7 +2019,7 @@ static PyObject *__pyx_pf_6CyFPPS_6PyFPPS_6solve(struct __pyx_obj_6CyFPPS_PyFPPS
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("solve", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_solve(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_6CyFPPS_6PyFPPS_solve(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4268,6 +4316,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_solve, __pyx_k_solve, sizeof(__pyx_k_solve), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
+  {&__pyx_n_s_useSourceAsProbe, __pyx_k_useSourceAsProbe, sizeof(__pyx_k_useSourceAsProbe), 0, 0, 1, 1},
   {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -4455,10 +4504,10 @@ PyMODINIT_FUNC PyInit_CyFPPS(void)
   __pyx_vtable_6CyFPPS_PyFPPS.scatter = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_scatter;
   __pyx_vtable_6CyFPPS_PyFPPS.gather = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, PyArrayObject *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_gather;
   __pyx_vtable_6CyFPPS_PyFPPS.solve = (PyObject *(*)(struct __pyx_obj_6CyFPPS_PyFPPS *, int __pyx_skip_dispatch))__pyx_f_6CyFPPS_6PyFPPS_solve;
-  if (PyType_Ready(&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_6CyFPPS_PyFPPS.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_6CyFPPS_PyFPPS.tp_dict, __pyx_vtabptr_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "PyFPPS", (PyObject *)&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_6CyFPPS_PyFPPS.tp_dict, __pyx_vtabptr_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "PyFPPS", (PyObject *)&__pyx_type_6CyFPPS_PyFPPS) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_6CyFPPS_PyFPPS = &__pyx_type_6CyFPPS_PyFPPS;
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
@@ -4483,14 +4532,14 @@ PyMODINIT_FUNC PyInit_CyFPPS(void)
   /* "CyFPPS.pyx":1
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * 
+ * from libcpp cimport bool
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "CyFPPS.pyx":36
+  /* "CyFPPS.pyx":41
  *         return Ex, Ey
  * 
  *     cpdef solve(self):             # <<<<<<<<<<<<<<
