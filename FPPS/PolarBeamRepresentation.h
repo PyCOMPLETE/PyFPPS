@@ -13,7 +13,8 @@ public:
 
     void getField(int i,double* x,double* y,double* Ex,double* Ey,double radialField, double polarField);
 
-	void update(double* x,double* y,double* charge);
+	void update(double* x,double* y,double* charge,int n);
+	void update(double* x,double* y,int n);
 protected:
     int npart;
     double* radius;

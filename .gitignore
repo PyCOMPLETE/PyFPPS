@@ -4,4 +4,4 @@ build
 *.o
 *.so
 *.csv
-FPPScy.cpp
+CyFPPS.cpp

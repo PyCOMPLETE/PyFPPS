@@ -1,5 +1,6 @@
 #include "PolarBeamRepresentation.h"
 #include <cmath>
+#include <cstddef>
 
 PolarBeamRepresentation::PolarBeamRepresentation(int n):
 npart(n) {
@@ -31,7 +32,15 @@ void PolarBeamRepresentation::getField(int i,double* x,double* y,double* Ex,doub
     Ey[i] += sintheta*radialField+costheta*polarField;
 }
 
-void PolarBeamRepresentation::update(double* x,double* y,double* sourceCharge) {
+void PolarBeamRepresentation::update(double* x,double* y,double* sourceCharge, int n) {
+    if(n!=npart) {
+        npart = n;
+        delete radius;
+        delete angle;
+        radius = new double[npart];
+        angle = new double[npart];
+    }
+
     charge = sourceCharge;
     #pragma omp parallel for schedule(guided,1000)
     for(int i=0; i<npart; ++i){
@@ -39,4 +48,8 @@ void PolarBeamRepresentation::update(double* x,double* y,double* sourceCharge) {
         angle[i] = atan2(y[i],x[i]);
         if (angle[i] < 0) angle[i] += 2.0*M_PI;
     }
+}
+
+void PolarBeamRepresentation::update(double* x,double* y, int n) {
+    PolarBeamRepresentation::update(x,y,NULL,n);
 }
